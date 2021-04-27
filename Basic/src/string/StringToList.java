@@ -6,9 +6,10 @@ import java.util.List;
 public class StringToList {
 
     public static List<String> toList(String s) {
-        s = s.replaceAll("\\[", "");
-        s = s.replaceAll("\\]", "");
-        s = s.replaceAll("\"", "");
+        s = s.replaceAll("\\[", "")
+                .replaceAll("\\]", "")
+                .replaceAll("\"", "")
+                .replaceAll(" ", "");
 
         String[] strings = s.split(",");
         return Arrays.asList(strings);

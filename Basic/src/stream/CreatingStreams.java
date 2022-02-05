@@ -7,10 +7,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
-import java.util.List;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import static stream.PrintUtils.show;
 
 /**
  * Collection::stream 으로 스트림으로 변환이 가능하다.
@@ -18,26 +18,6 @@ import java.util.stream.Stream;
  * Reference: https://github.com/gilbutITbook/006985
  */
 public class CreatingStreams {
-    /**
-     * 스트림 요소를 출력하는 메서드
-     * 최대 10개 요소까지만 출력하도록 제한한다.
-     *
-     * @param title  출력 제목
-     * @param stream 출력 요소 스트림
-     * @param <T>    출력 요소의 제네릭 타입
-     */
-    public static <T> void show(String title, Stream<T> stream) {
-        final int SIZE = 10;
-        List<T> firstElements = stream.limit(SIZE + 1).collect(Collectors.toList());
-        System.out.print(title + ": ");
-        if (firstElements.size() <= SIZE)
-            System.out.println(firstElements);
-        else {
-            firstElements.remove(SIZE);
-            String out = firstElements.toString();
-            System.out.println(out.substring(0, out.length() - 1) + ", ...]");
-        }
-    }
 
     public static void main(String[] args) throws IOException {
         Path path = Paths.get("alice.txt");

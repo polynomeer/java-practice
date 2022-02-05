@@ -8,7 +8,7 @@
 
 # Custom ignore list
 .idea/
-*.txt
+output.txt
 
 # User-specific stuff
 .idea/**/workspace.xml

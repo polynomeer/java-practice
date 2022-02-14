@@ -1,4 +1,4 @@
-package stream;
+package corejava.stream;
 
 import java.io.IOException;
 import java.math.BigInteger;
@@ -10,10 +10,10 @@ import java.util.Arrays;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
-import static stream.PrintUtils.show;
+import static corejava.stream.PrintUtils.show;
 
 /**
- * Collection::stream 으로 스트림으로 변환이 가능하다.
+ * Collection::corejava.stream 으로 스트림으로 변환이 가능하다.
  * 하지만 배열은 Stream::of로 얻어내야 한다.
  * Reference: https://github.com/gilbutITbook/006985
  */

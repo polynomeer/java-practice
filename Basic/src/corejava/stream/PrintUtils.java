@@ -1,4 +1,4 @@
-package stream;
+package corejava.stream;
 
 import java.util.List;
 import java.util.stream.Collectors;

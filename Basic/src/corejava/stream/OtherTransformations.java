@@ -1,4 +1,4 @@
-package stream;
+package corejava.stream;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -9,7 +9,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static stream.PrintUtils.show;
+import static corejava.stream.PrintUtils.show;
 
 public class OtherTransformations {
 

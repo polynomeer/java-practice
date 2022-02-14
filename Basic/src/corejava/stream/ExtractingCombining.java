@@ -1,11 +1,11 @@
-package stream;
+package corejava.stream;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static stream.PrintUtils.show;
+import static corejava.stream.PrintUtils.show;
 
 public class ExtractingCombining {
 

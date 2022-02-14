@@ -1,4 +1,4 @@
-package stream;
+package corejava.stream;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static stream.PrintUtils.show;
+import static corejava.stream.PrintUtils.show;
 
 /**
  * Stream 변환은 다른 스트림에 들어있는 요소에서 파생한 요소의 스트림을 만들어낸다.

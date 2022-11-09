@@ -1,4 +1,5 @@
 import util.Adder;
+import util.TriFunction;
 
 import java.util.function.BiFunction;
 import java.util.function.Function;
@@ -17,5 +18,12 @@ public class AdderExample {
         BiFunction<Integer, Integer, Integer> add = Integer::sum;
         int result3 = add.apply(3, 5);
         System.out.println("result3 = " + result3);
+
+        TriFunction<Integer, Integer, Integer, Integer> addThreeNumbers =
+                (Integer x, Integer y, Integer z) -> {
+                    return x + y + z;
+                };
+        int result4 = addThreeNumbers.apply(3, 2, 5);
+        System.out.println("result4 = " + result4);
     }
 }

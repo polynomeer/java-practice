@@ -1,3 +1,5 @@
+package functional;
+
 import java.util.function.Supplier;
 
 public class SupplierExample {

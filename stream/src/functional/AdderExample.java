@@ -1,6 +1,8 @@
-import util.Adder;
-import util.TriFunction;
-import util.UnaryAdder;
+package functional;
+
+import functional.util.Adder;
+import functional.util.TriFunction;
+import functional.util.UnaryAdder;
 
 import java.util.function.BiFunction;
 import java.util.function.Function;

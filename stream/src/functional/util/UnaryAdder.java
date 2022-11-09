@@ -1,4 +1,4 @@
-package util;
+package functional.util;
 
 import java.util.function.UnaryOperator;
 

@@ -20,9 +20,7 @@ public class AdderExample {
         System.out.println("result3 = " + result3);
 
         TriFunction<Integer, Integer, Integer, Integer> addThreeNumbers =
-                (Integer x, Integer y, Integer z) -> {
-                    return x + y + z;
-                };
+                (Integer x, Integer y, Integer z) -> x + y + z;
         int result4 = addThreeNumbers.apply(3, 2, 5);
         System.out.println("result4 = " + result4);
     }

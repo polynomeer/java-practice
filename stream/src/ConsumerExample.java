@@ -16,10 +16,15 @@ public class ConsumerExample {
         Consumer<Integer> myDifferentIntegerProcessor = x ->
                 System.out.println("Processing Integer in different way " + x);
         process(integerInputs, myDifferentIntegerProcessor);
+
+        Consumer<Double> myDoubleProcessor = x ->
+                System.out.println("Processing Double " + x);
+        List<Double> doubleInputs = Arrays.asList(1.1, 2.2, 3.3);
+        process(doubleInputs, myDoubleProcessor);
     }
 
-    public static void process(List<Integer> inputs, Consumer<Integer> processor) {
-        for (Integer input : inputs) {
+    public static <T> void process(List<T> inputs, Consumer<T> processor) {
+        for (T input : inputs) {
             processor.accept(input);
         }
     }

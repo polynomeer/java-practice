@@ -1,8 +1,10 @@
 import util.Adder;
 import util.TriFunction;
+import util.UnaryAdder;
 
 import java.util.function.BiFunction;
 import java.util.function.Function;
+import java.util.function.UnaryOperator;
 
 public class AdderExample {
 
@@ -23,5 +25,9 @@ public class AdderExample {
                 (Integer x, Integer y, Integer z) -> x + y + z;
         int result4 = addThreeNumbers.apply(3, 2, 5);
         System.out.println("result4 = " + result4);
+
+        UnaryOperator<Integer> unaryAdder = new UnaryAdder();
+        int result5 = unaryAdder.apply(5);
+        System.out.println("result5 = " + result5);
     }
 }

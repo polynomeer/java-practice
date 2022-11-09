@@ -14,9 +14,7 @@ public class AdderExample {
         int result2 = adder2.apply(5);
         System.out.println("result2 = " + result2);
 
-        BiFunction<Integer, Integer, Integer> add = (Integer x, Integer y) -> {
-            return x + y;
-        };
+        BiFunction<Integer, Integer, Integer> add = Integer::sum;
         int result3 = add.apply(3, 5);
         System.out.println("result3 = " + result3);
     }

@@ -18,7 +18,13 @@ public class MarkAndSweepMain {
 
         gc.addRoot(a);
 
+        System.out.println("== 초기 상태 ==");
+        GcObjectGraphVisualizer.visualize(gc.getHeap());
+
         System.out.println("\n== Mark-and-Sweep GC 수행 ==");
         gc.collect();
+
+        System.out.println("\n== GC 이후 상태 ==");
+        GcObjectGraphVisualizer.visualize(gc.getHeap());
     }
 }

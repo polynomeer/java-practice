@@ -6,6 +6,10 @@ public class MarkAndSweepGc {
     private final List<GcObject> heap = new ArrayList<>();
     private final List<GcObject> roots = new ArrayList<>();
 
+    public List<GcObject> getHeap() {
+        return heap;
+    }
+
     public GcObject allocate(String name) {
         GcObject obj = new GcObject(name);
         heap.add(obj);

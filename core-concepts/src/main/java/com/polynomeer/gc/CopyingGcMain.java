@@ -1,54 +1,24 @@
 package com.polynomeer.gc;
 
-import java.util.*;
-
 public class CopyingGcMain {
-
     public static void main(String[] args) {
-        GcObject a = new GcObject("A");
-        GcObject b = new GcObject("B");
-        GcObject c = new GcObject("C");
-        GcObject d = new GcObject("D");
-        GcObject e = new GcObject("E");
+        CopyingGc gc = new CopyingGc();
 
+        // 객체 생성
+        GcObject a = gc.allocate("A");
+        GcObject b = gc.allocate("B");
+        GcObject c = gc.allocate("C");
+        GcObject d = gc.allocate("D");
+        GcObject x = gc.allocate("X"); // 고아 객체
+
+        // 참조 설정
         a.addReference(b);
         b.addReference(c);
         c.addReference(d);
-        // E는 루트에서 도달 불가능
 
-        List<GcObject> fromSpace = Arrays.asList(a, b, c, d, e);
-        List<GcObject> toSpace = new ArrayList<>();
-        List<GcObject> roots = List.of(a);
+        gc.addRoot(a);
 
-        Map<GcObject, GcObject> copied = new HashMap<>();
-
-        for (GcObject root : roots) {
-            GcObject copiedRoot = copy(root, copied, toSpace);
-        }
-
-        System.out.println("=== After Copying GC ===");
-        for (GcObject obj : toSpace) {
-            System.out.println("[LIVE] " + obj);
-        }
-
-        for (GcObject obj : fromSpace) {
-            if (!copied.containsKey(obj)) {
-                System.out.println("[GC]   " + obj);
-            }
-        }
-    }
-
-    private static GcObject copy(GcObject original, Map<GcObject, GcObject> copied, List<GcObject> toSpace) {
-        if (copied.containsKey(original)) return copied.get(original);
-
-        GcObject newObj = new GcObject(original.toString());
-        copied.put(original, newObj);
-        toSpace.add(newObj);
-
-        for (GcObject ref : original.getReferences()) {
-            newObj.addReference(copy(ref, copied, toSpace));
-        }
-
-        return newObj;
+        // 복사형 GC 수행
+        gc.collect();
     }
 }

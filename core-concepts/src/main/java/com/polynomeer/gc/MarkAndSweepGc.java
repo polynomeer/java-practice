@@ -10,6 +10,10 @@ public class MarkAndSweepGc {
         return heap;
     }
 
+    public List<GcObject> getRoots() {
+        return roots;
+    }
+
     public GcObject allocate(String name) {
         GcObject obj = new GcObject(name);
         heap.add(obj);
@@ -20,15 +24,21 @@ public class MarkAndSweepGc {
         roots.add(obj);
     }
 
-    public void collect() {
-        System.out.println("[GC] Starting Mark and Sweep...");
-
-        // 1. Mark phase
+    /**
+     * 🔵 Mark Phase
+     */
+    public void mark() {
+        System.out.println("[GC] Mark phase...");
         for (GcObject root : roots) {
             root.mark();
         }
+    }
 
-        // 2. Sweep phase
+    /**
+     * 🔴 Sweep Phase
+     */
+    public void sweep() {
+        System.out.println("[GC] Sweep phase...");
         Iterator<GcObject> iterator = heap.iterator();
         while (iterator.hasNext()) {
             GcObject obj = iterator.next();
@@ -36,10 +46,18 @@ public class MarkAndSweepGc {
                 System.out.println("[GC] Collecting " + obj);
                 iterator.remove();
             } else {
-                obj.unmark(); // reset for next cycle
+                obj.unmark(); // reset for next GC cycle
             }
         }
-
         System.out.println("[GC] Remaining objects in heap: " + heap);
+    }
+
+    /**
+     * 전체 수동 GC 실행 (선택적 호출)
+     */
+    public void collect() {
+        System.out.println("[GC] Starting Mark and Sweep...");
+        mark();
+        sweep();
     }
 }

@@ -8,20 +8,38 @@ Each directory is categorized by purpose, allowing you to organize and grow your
 
 ## 🗂 Directory Structure
 
-| Directory | Description |
-|-----------|-------------|
-| `playground/` | A free space for quick tests and experiments. No structure or polish required—just try things out. |
-| `core-concepts/` | Java language fundamentals such as OOP, generics, exception handling, and access modifiers. |
-| `api-snippets/` | Practical examples using core Java APIs like Stream, Optional, Collections, etc. |
-| `coding-recipes/` | Handy, reusable solutions to common problems (e.g., LRU Cache, JSON parser). Great for interviews or production inspiration. |
-| `patterns/` | Design pattern practice: GoF, concurrency patterns, behavioral/creational/structural designs. |
-| `architecture/` | Application-level design examples including layered architecture, DDD, and hexagonal architecture. |
-| `testing-and-tooling/` | Testing, logging, build tools like JUnit, Mockito, Logback, Lombok, and Gradle. |
-| `jdk-exploration/` | Hands-on exploration of new features from Java 8 to 21 (e.g., Records, Virtual Threads). |
-| `labs/` | Deeper exploration of JVM internals, GC, class loading, reflection, etc. |
-| `benchmarks/` | Benchmarking for performance comparisons across algorithms, data structures, and APIs. |
-| `blog-samples/` | Clean, well-documented code examples for blog posts, presentations, or tutorials. |
-| `drafts/` | Unpolished ideas, prototypes, and scratch work. Move them to another directory once stabilized. |
+```
+java-practice/
+├── playground/
+├── core-concepts/
+├── api-snippets/
+├── coding-recipes/
+├── patterns/
+├── architecture/
+├── testing-and-tooling/
+├── jdk-exploration/
+├── labs/
+├── benchmarks/
+├── blog-samples/
+├── study-sources/
+└── drafts/
+```
+
+| Directory              | Description                                                                                                                           |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| `playground/`          | A free space for quick tests and experiments. No structure or polish required—just try things out.                                    |
+| `core-concepts/`       | Java language fundamentals such as OOP, generics, exception handling, and access modifiers.                                           |
+| `api-snippets/`        | Practical examples using core Java APIs like Stream, Optional, Collections, etc.                                                      |
+| `coding-recipes/`      | Handy, reusable solutions to common problems (e.g., LRU Cache, JSON parser). Great for interviews or production inspiration.          |
+| `patterns/`            | Design pattern practice: GoF, concurrency patterns, behavioral/creational/structural designs.                                         |
+| `architecture/`        | Application-level design examples including layered architecture, DDD, and hexagonal architecture.                                    |
+| `testing-and-tooling/` | Testing, logging, build tools like JUnit, Mockito, Logback, Lombok, and Gradle.                                                       |
+| `jdk-exploration/`     | Hands-on exploration of new features from Java 8 to 21 (e.g., Records, Virtual Threads).                                              |
+| `labs/`                | Deeper exploration of JVM internals, GC, class loading, reflection, etc.                                                              |
+| `benchmarks/`          | Benchmarking for performance comparisons across algorithms, data structures, and APIs.                                                |
+| `blog-samples/`        | Clean, well-documented code examples for blog posts, presentations, or tutorials.                                                     |
+| `study-sources/`       | Code written by following books, online courses, or tutorials. Helps with structured learning and understanding from guided material. |
+| `drafts/`              | Unpolished ideas, prototypes, and scratch work. Move them to another directory once stabilized.                                       |
 
 ---
 

@@ -14,73 +14,102 @@ public class IOModeSimulation {
         System.out.println("\n=== 4. Asynchronous + Non-blocking ===");
         asynchronousNonBlocking();
 
-        // 대기: 비동기 작업 완료용
-        Thread.sleep(4000);
+        Thread.sleep(5000); // 대기: 비동기 작업 완료용
     }
 
-    // 1. Synchronous + Blocking
+    // 1. Sync + Blocking
     static void synchronousBlocking() throws InterruptedException {
-        System.out.println("Start task");
-        simulateBlockingIO();  // 실제로 기다림
-        System.out.println("Task complete");
+        System.out.println("[App] Starting blocking task...");
+        simulateProgress("Processing", 2000);
+        System.out.println("[App] Task complete!");
     }
 
-    // 2. Synchronous + Non-blocking (Polling)
+    // 2. Sync + Non-blocking
     static void synchronousNonBlocking() throws InterruptedException {
-        System.out.println("Start polling task");
+        System.out.println("[App] Starting polling loop...");
         int attempts = 0;
         while (!simulateNonBlockingIO()) {
-            System.out.println("Data not ready, retrying...");
-            Thread.sleep(200);
+            System.out.println("[App] Attempt " + (attempts + 1) + ": No data yet...");
+            Thread.sleep(300);
             attempts++;
-            if (attempts > 10) {
-                System.out.println("Gave up after 10 tries");
+            if (attempts >= 10) {
+                System.out.println("[App] Gave up after 10 tries");
                 return;
             }
         }
-        System.out.println("Data is ready, processing done.");
+        System.out.println("[App] Data is ready. Processing done.");
     }
 
-    // 3. Asynchronous + Blocking (별도 쓰레드 내부는 blocking)
+    // 3. Async + Blocking (Thread 내부 blocking)
     static void asynchronousBlocking() {
-        System.out.println("Start async task (blocking inside)");
+        System.out.println("[App] Launching async blocking task...");
         new Thread(() -> {
             try {
-                simulateBlockingIO();
-                System.out.println("Async Task complete (blocking)");
+                simulateProgress("[Worker] Processing (blocking)", 2000);
+                System.out.println("[Worker] Task complete!");
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }).start();
-        System.out.println("Main thread continues");
+        System.out.println("[App] Main thread continues...");
     }
 
-    // 4. Asynchronous + Non-blocking (이벤트 기반)
+    // 4. Async + Non-blocking (Polling with callback style)
     static void asynchronousNonBlocking() {
-        System.out.println("Start async task (non-blocking)");
+        System.out.println("[App] Launching async non-blocking task...");
         new Thread(() -> {
             try {
+                int attempt = 0;
                 while (!simulateNonBlockingIO()) {
-                    System.out.println("Async: Not ready yet...");
-                    Thread.sleep(200);
+                    System.out.println("[AsyncWorker] Attempt " + (++attempt) + ": waiting...");
+                    Thread.sleep(300);
                 }
-                System.out.println("Async Task complete (non-blocking)");
+                System.out.println("[AsyncWorker] Data ready, task complete!");
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }).start();
-        System.out.println("Main thread continues");
+        System.out.println("[App] Main thread continues...");
     }
 
-    // ----------- 시뮬레이션 메서드 ------------
+    // ---------- 유틸 ----------
 
-    // Blocking I/O 시뮬레이션 (2초 기다림)
-    static void simulateBlockingIO() throws InterruptedException {
-        Thread.sleep(2000);
+    // 시뮬레이션: Blocking 작업 표시
+    static void simulateProgress(String label, int durationMs) throws InterruptedException {
+        int steps = durationMs / 200;
+        for (int i = 0; i < steps; i++) {
+            System.out.print("\r" + label + " " + progressBar(i, steps));
+            Thread.sleep(200);
+        }
+        System.out.println();
     }
 
-    // Non-blocking I/O 시뮬레이션 (50% 확률로 준비됨)
+    /**
+     * Non-blocking I/O - 70% 확률로 데이터 준비됨
+     *
+     * @return random 값이 0.7 이상인 경우 true (70% 확률)
+     */
     static boolean simulateNonBlockingIO() {
-        return Math.random() > 0.5;
+        return Math.random() > 0.7;
+    }
+
+    /**
+     * @param current
+     * @param total
+     * @return
+     */
+    static String progressBar(int current, int total) {
+        StringBuilder bar = new StringBuilder();
+        bar.append("[");
+        for (int i = 0; i < total; i++) {
+            if (i < current)
+                bar.append("=");
+            else if (i == current)
+                bar.append(">");
+            else
+                bar.append(" ");
+        }
+        bar.append("]");
+        return bar.toString();
     }
 }

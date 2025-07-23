@@ -1,59 +1,82 @@
 package com.polynomeer.collection;
 
+import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
 public class LoadFactorTest {
 
-    static final int N = 100_000; // 테스트할 요소 수
-    static final int INIT_CAPACITY = 128; // 낮게 잡아 리사이즈 유도
+    static final int N = 100_000; // 테스트할 엔트리 수
+    static final int INIT_CAPACITY = 128;
 
-    public static void main(String[] args) {
-        testLoadFactor(0.5f);
-        testLoadFactor(0.75f);
-        testLoadFactor(1.0f);
+    public static void main(String[] args) throws Exception {
+        testWithLoadFactor(0.5f);
+        testWithLoadFactor(0.75f);
+        testWithLoadFactor(1.0f);
     }
 
-    private static void testLoadFactor(float loadFactor) {
-        System.out.println("==== Load Factor: " + loadFactor + " ====");
+    private static void testWithLoadFactor(float loadFactor) throws Exception {
+        System.out.println("===== Load Factor: " + loadFactor + " =====");
 
         Map<Integer, String> map = new HashMap<>(INIT_CAPACITY, loadFactor);
-
-        int[] bucketCollisions = new int[1 << 16]; // 예상 최대 테이블 크기
-        Random rand = new Random(42);
-
-        int collisionCount = 0;
-        int resizeThreshold = (int) (INIT_CAPACITY * loadFactor);
-        int resizeCount = 0;
+        Random random = new Random(42);
+        int[] keys = new int[N];
 
         for (int i = 0; i < N; i++) {
-            int key = rand.nextInt(Integer.MAX_VALUE);
-            map.put(key, "value");
+            keys[i] = random.nextInt(Integer.MAX_VALUE);
+        }
 
-            // 해시 테이블 충돌 추정 (단순 시뮬레이션)
-            int hash = hash(key);
-            int index = (INIT_CAPACITY - 1) & hash;
+        long startPut = System.nanoTime();
+        for (int i = 0; i < N; i++) {
+            map.put(keys[i], "value" + i);
+        }
+        long timePut = System.nanoTime() - startPut;
 
-            if (bucketCollisions[index] > 0) collisionCount++;
-            bucketCollisions[index]++;
+        long startGet = System.nanoTime();
+        for (int i = 0; i < N; i++) {
+            map.get(keys[i]);
+        }
+        long timeGet = System.nanoTime() - startGet;
 
-            // 임계값 초과 체크 (단순 추정용)
-            if (map.size() > resizeThreshold) {
-                resizeThreshold *= 2;
-                resizeCount++;
+        // 실제 테이블 접근 (리플렉션)
+        // Java 9 이후에는 VM 옵션을 추가해야함 "--add-opens java.base/java.util=ALL-UNNAMED"
+        Field tableField = HashMap.class.getDeclaredField("table");
+        tableField.setAccessible(true);
+        Object[] table = (Object[]) tableField.get(map);
+
+        int totalBuckets = 0;
+        int totalCollisions = 0;
+        int maxChainLength = 0;
+
+        for (Object bucket : table) {
+            if (bucket == null) continue;
+            int chainLength = 0;
+
+            // Node는 HashMap 내부 static class
+            Field nextField = bucket.getClass().getDeclaredField("next");
+            nextField.setAccessible(true);
+
+            Object current = bucket;
+            while (current != null) {
+                chainLength++;
+                current = nextField.get(current);
+            }
+
+            totalBuckets++;
+            if (chainLength > 1) {
+                totalCollisions += (chainLength - 1);
+                maxChainLength = Math.max(maxChainLength, chainLength);
             }
         }
 
-        System.out.println("Total Inserted: " + map.size());
-        System.out.println("Estimated Collisions: " + collisionCount);
-        System.out.println("Estimated Resizes: " + resizeCount);
+        System.out.println("Total entries inserted: " + N);
+        System.out.println("Put time: " + (timePut / 1_000_000) + " ms");
+        System.out.println("Get time: " + (timeGet / 1_000_000) + " ms");
+        System.out.println("Table size (buckets): " + table.length);
+        System.out.println("Used buckets: " + totalBuckets);
+        System.out.println("Total collisions: " + totalCollisions);
+        System.out.println("Max chain length in a bucket: " + maxChainLength);
         System.out.println();
-    }
-
-    // HashMap의 hash() 함수와 유사하게 비트 섞기
-    static int hash(Object key) {
-        int h = key.hashCode();
-        return h ^ (h >>> 16);
     }
 }
